@@ -1,0 +1,15 @@
+windows + ctrl + D == New desktop
+windows + ctrl == switch between virual tabs
+windows + ctrl +f4 == close the virtual desktop
+windows + M == minimize
+windows + , == wallpa..
+windows + 1,2,3.. == taskbar
+windows + left arrow == split screen
+ctrl + alt +tab == currently running apps (windows + tab)
+ctrl + shift +esc == opens task manager and allows us to force quit any malfunctiong app
+windows + E == task manager
+windows + +/- = zoom in or out
+windows + A == action center
+windows + I == access settings
+windows + c == talk to cortona or siri
+windows + g ==game bar

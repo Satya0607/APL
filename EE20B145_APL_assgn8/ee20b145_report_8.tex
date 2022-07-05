@@ -1,0 +1,169 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{\textbf{Assignment-6}} % Title
+
+\author{\textbf{\textit{M.Sai kumar-EE20B082}}} % Author name
+\date{14-04-2022}% Date for the report
+
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{float}
+
+\begin{document}
+
+\maketitle
+
+\section{Overview}
+In this assignment we will learn how to study the digital fourier transform by using functions in numpy , matplotlib and plotting the results. We will examine the DFT of various functions using the fft library in numpy.
+
+\section{The function}
+In-order to determine and plot the DFTs of different functions, we will first define a function which computes all of the necessary variables and plots the magnitude and phase plots of the DFT corresponding to each function and the provided inputs. We need to provide the function and also the time range, frequency range corresponding to the plots which we wish to plot.The python function is defined as follows.
+\begin{verbatim}
+    t = linspace(-range, range, N + 1)
+    t = t[:-1]
+    y = function(t)
+    Y = fftshift(fft(y))/N
+    w = linspace(-64, 64, N + 1) 
+    w = w[:-1]
+    if(name =="gauss"): 
+        Y = fftshift(abs(fft(y)))/N
+        Y = Y*sqrt(2*pi)/max(Y)
+        Y0 = exp(-w**2/2)*sqrt(2*pi)
+        print("maximum error is {} at time range={} and period={}".format(abs(Y-Y0).max(),format(2*range),format(N)))
+    figure()
+    subplot(2, 1, 1) #subplots are used to represent sub figures in same picture
+    plot(w, abs(Y), lw = 2)
+    xlim([-x_lim, x_lim])
+    ylabel(r"$|y|$", size = 16)
+    title(r"Spectrum of ${}$".format(name))
+    grid(True)
+    subplot(2,1,2)
+    ii=where(abs(Y)>1e-3)
+    if(name!="cos(20t+5cos(t))"):
+        plot(w,angle(Y),'ro',lw=2)
+    plot(w[ii],angle(Y[ii]),'go',lw=2)
+    xlim([-x_lim, x_lim])
+    ylabel(r"Phase of $Y$",size=16)
+    xlabel(r"$k$",size=16)
+    grid(True)
+    savefig("plot{}.png".format(fignum[0]))
+    fignum[0] += 1
+    show()
+\end{verbatim}
+
+\section{Spectrum of $sin(5t)$}
+The first function which we use for studying the DFT is a basic sinusoid $sin(5t)$. It's DFT will have peaks at -5 and +5, and the corresponding phase of these poles are $\pi/2$ and $-\pi/2$.
+\begin{equation}
+y = sin(5t) = 0.5(\frac{e^{5t}}{j}-\frac{e^{-5t}}{j})
+\end{equation}
+The phase and magnitude plot of the DFT are given below.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{plot0.png}
+\caption{Spectrum of $sin(5t)$}
+\label{fig:fig1}
+\end{figure}
+
+
+\section{Spectrum of $(1+0.1\cos(t))\cos(10t)$}
+The given function corresponds to an amplitude modulated signal. We will get a total of 6 peaks with 2 peaks larger than the other four. The larger peaks are obtained at frequencies of +10 and -10 respectively. Also we need to ensure that the range and number of samples is high enough for us to view all the peaks clearly. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{plot1.png}
+\caption{Spectrum of $(1+0.1\cos(t))\cos(10t)$}
+\label{fig:fig2}
+\end{figure}
+
+
+
+\section{Spectrum of $sin^3(t)$ and $cos^3(t)$}
+These signals can be represented as follows:
+\begin{equation}
+\sin^3(t) = \frac{3}{4}\sin(t) - \frac{1}{4}\sin(3t)
+\end{equation}
+\begin{equation}
+\cos^3(t) = \frac{3}{4}\cos(t) + \frac{1}{4}\cos(3t)
+\end{equation}
+
+For each of the above signals we will get peaks at -3, -1, 1 and 3 respectively. The plots corresponding to the DFTs of these signals is shown below.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{plot2.png}
+\caption{Spectrum of $sin^3(t)$}
+\label{fig:fig3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{plot3.png}
+\caption{Spectrum of $cos^3(t)$}
+\label{fig:fig4}
+\end{figure}
+
+
+
+
+\section{Spectrum of $\cos(20t + 5\cos(t))$}
+The given function corresponds to a frequency modulated signal. The corresponding spectrum will have poles symmetric at both -20 and 20  respectively. The corresponding plots of the DFTs are as follows.
+
+\begin{figure}[H]
+\includegraphics[scale=0.6]{plot4.png}
+\centering
+\caption{Spectrum of $\cos(20t + 5\cos(t))$}
+\label{fig:fig5}
+\end{figure}
+
+
+\section{Spectrum of $e^{-x^2/2}$}
+The Gaussian function $f(x) = e^{-x^2/2}$ is not band limited as the frequency spectrum has non zero values even for large frequencies. The maximum value of the error varies as we vary the time range and also the sample rate. We will try plotting the spectrum of the gaussian for different time ranges and sampling rates. We will compute the maximum error obtained in each case and find the time range for which we will obtain the frequency domain which is the most accurate.
+\begin{figure}[H]
+\includegraphics[scale=0.6]{plot5.png}
+\centering
+\caption{DFT corresponding to t\_range = $8\pi [-4\pi , 4\pi]$ and N = 512}
+\label{fig:fig6}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[scale=0.6]{plot6.png}
+\centering
+\caption{DFT corresponding to t\_range = $12\pi[-6\pi , 6\pi]$ and N = 512}
+\label{fig:fig7}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[scale=0.6]{plot7.png}
+\centering
+\caption{DFT corresponding to t\_range = $16\pi[-8\pi , 8\pi]$ and N = 512}
+\label{fig:fig8}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[scale=0.6]{plot8.png}
+\centering
+\caption{DFT corresponding to t\_range = $8\pi [-4\pi , 4\pi]$ and N = 256}
+\label{fig:fig9}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[scale=0.6]{plot9.png}
+\centering
+\caption{DFT corresponding to t\_range = $8\pi [-4\pi , 4\pi]$ and N = 1024}
+\label{fig:fig10}
+\end{figure}
+
+For sampling rate = 512 and time range = $8\pi$ s, the maximum error is found to be around $10^{-16}$. Thus we have the time range at whcih the frequency domain is the most accurate with maximum error = 1.010436804753547e-15. \\As the sampling rate increases, the peak sharpens. Also, it broadens for greater time ranges.
+
+
+
+\section{Conclusion}
+\begin{itemize}
+    \item We were able to plot the DFT's of sinusoid, AM signals, FM signals and weighted sum of sinusoids using the fft library in numpy module.
+    \item We have also studied the DFT's of the gaussian sigal and also we observed how the plot changes as we vary the time ranges and sampling rates.
+    \item We were able to obtain the time range at which we obtain the most accurate frequency domain for the spectrum of gaussian signal.
+\end{itemize}
+\end{document}
